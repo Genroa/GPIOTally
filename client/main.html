@@ -1,0 +1,29 @@
+<head>
+	<title>GPIOTally</title>
+</head>
+
+<body>
+	<h1>Welcome to GPIO Tally</h1>
+
+	{{> hello}}
+</body>
+
+<template name="hello">
+
+	<div>{{getInputNumber}} entrées, {{getOutputNumber}} sorties:</div>
+	<br><br><br>
+	<div id="container">
+		<!-- Pour chaque index dans range, générer la colone et les lignes dédiées à cette entrée dans le SVG -->
+		<svg id="svgGrid" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 1000 {{defineSvgHeight}}">
+			{{#each index in inputsRange}}
+				<!-- pour chaque sortie, un rect normalement -->
+				{{#each outIndex in revertOutputsRange}}
+         			<rect class="wire_{{index}}_{{outIndex}}_vert" x="{{columnPosition index}}" y="0" width="{{gridThickness}}" height="{{columnHeight outIndex}}" fill="darkgrey"/>
+         			<rect class="wire_{{index}}_{{outIndex}}" x="{{columnPosition index}}" y="{{columnHeight outIndex}}" width="{{lineLength index}}" height="{{gridThickness}}" fill="darkgrey" stroke="darkgrey"/>
+				{{/each}}
+			{{/each}}
+
+
+		</svg>
+	</div>
+</template>

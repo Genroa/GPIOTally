@@ -1,0 +1,12 @@
+{
+  "name": "GPIOTally",
+  "private": true,
+  "scripts": {
+    "start": "meteor run"
+  },
+  "dependencies": {
+    "handlebars": "^4.0.5",
+    "handlebars-helpers": "^0.7.5",
+    "meteor-node-stubs": "^0.2.3"
+  }
+}
