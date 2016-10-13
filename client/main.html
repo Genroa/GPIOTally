@@ -3,12 +3,17 @@
 </head>
 
 <body>
-	<h1>Welcome to GPIO Tally</h1>
-
 	{{> hello}}
 </body>
 
 <template name="hello">
+	<div class="navbar navbar-default">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<a class="navbar-brand">GPIO Tally</a>
+			</div>
+		</div>
+	</div>
 
 	<div>{{getInputNumber}} entrées, {{getOutputNumber}} sorties:</div>
 	<br><br><br>
@@ -18,8 +23,8 @@
 			{{#each index in inputsRange}}
 				<!-- pour chaque sortie, un rect normalement -->
 				{{#each outIndex in revertOutputsRange}}
-         			<rect class="wire_{{index}}_{{outIndex}}_vert" x="{{columnPosition index}}" y="0" width="{{gridThickness}}" height="{{columnHeight outIndex}}" fill="darkgrey"/>
-         			<rect class="wire_{{index}}_{{outIndex}}" x="{{columnPosition index}}" y="{{columnHeight outIndex}}" width="{{lineLength index}}" height="{{gridThickness}}" fill="darkgrey" stroke="darkgrey"/>
+					<rect class="wire_{{index}}_{{outIndex}}_vert" x="{{columnPosition index}}" y="0" width="{{gridThickness}}" height="{{columnHeight outIndex}}" fill="darkgrey"/>
+					<rect class="wire_{{index}}_{{outIndex}}" x="{{columnPosition index}}" y="{{columnHeight outIndex}}" width="{{lineLength index}}" height="{{gridThickness}}" fill="darkgrey" stroke="darkgrey"/>
 				{{/each}}
 			{{/each}}
 

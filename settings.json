@@ -1,0 +1,7 @@
+{
+	"public":{
+		"providedColors": ["green", "blue", "red", "orange", "yellow", "cyan", "Chartreuse", "BlueViolet", "DarkRed"],
+		"inputNumber": 10,
+		"outputNumber": 20
+	}
+}
