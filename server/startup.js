@@ -1,3 +1,4 @@
+import { Meteor } from 'meteor/meteor';
 import {ServerSession} from "meteor/matteodem:server-session";
 import {Configuration, GridInput} from "/collections/collections.js";
 
@@ -47,20 +48,7 @@ function checkServerSettings(){
 }
 
 
-Meteor.startup(function(){
-	/*
-	Procedure:
-	- check physical settings : wiring, colors, input/output number. Define default if --settings not present
-	- check ServerSession settings : currentGrid
-	*/
-
-	if(Meteor.isServer){
-		checkPhysicalSettings();
-		checkServerSettings();
-	}
-
-	
-	/*
-	
-	*/
+Meteor.startup(() => {
+	checkPhysicalSettings();
+	checkServerSettings();
 });

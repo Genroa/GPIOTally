@@ -3,22 +3,29 @@
 </head>
 
 <body>
-	<div class="navbar navbar-default">
-		<div class="container">
-			<div class="navbar-header">
-				<a class="navbar-brand">GPIO Tally</a>
-			</div>
-		</div>
+	<!-- <nav id="myNavmenu" class="navmenu navmenu-default navmenu-fixed-left offcanvas canvas-slid">
+		<a class="navmenu-brand" href="#">Brand</a>
+		<ul class="nav navmenu-nav">
+			<li class="active"><a href="#">Home</a></li>
+			<li><a href="#">Link</a></li>
+			<li><a href="#">Link</a></li>
+		</ul>
+	</nav> -->
+	<div class="navbar navbar-default navbar-fixed-top">
+		<button type="button" class="navbar-toggle" data-toggle="offcanvas" data-target="#myNavmenu" data-canvas="body">
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+		</button>
+		<span class="navbar-brand">GPIO Tally</span>
 	</div>
 	{{> grid}}
 </body>
 
 <template name="grid">
-
-
-	<div>{{getInputNumber}} entrées, {{getOutputNumber}} sorties:</div>
-	<br><br><br>
+	
 	<div id="container">
+		<div>{{getInputNumber}} entrées, {{getOutputNumber}} sorties:</div>
 		<!-- Pour chaque index dans range, générer la colone et les lignes dédiées à cette entrée dans le SVG -->
 		<svg id="svgGrid" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 1000 {{defineSvgHeight}}">
 			{{#each index in inputsRange}}
