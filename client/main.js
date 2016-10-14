@@ -3,9 +3,9 @@ import { ReactiveVar } from 'meteor/reactive-var';
 
 import './main.html';
 
-Template.hello.onCreated(function gridOnCreated() {
+Template.grid.onCreated(function gridOnCreated() {
 	this.inputNumber = new ReactiveVar(7);
-	this.outputNumber = new ReactiveVar(20);
+	this.outputNumber = new ReactiveVar(2);
 
 	this.gridLinks = new ReactiveDict('gridLinks');
 	for(i=0; i < this.inputNumber.get(); i++){
@@ -13,7 +13,7 @@ Template.hello.onCreated(function gridOnCreated() {
 	}
 });
 
-Template.hello.helpers({
+Template.grid.helpers({
 	getGridConnection(input) {
 		return Template.instance().gridLinks.get(input);
 	},

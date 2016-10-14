@@ -3,17 +3,18 @@
 </head>
 
 <body>
-	{{> hello}}
-</body>
-
-<template name="hello">
 	<div class="navbar navbar-default">
-		<div class="container-fluid">
+		<div class="container">
 			<div class="navbar-header">
 				<a class="navbar-brand">GPIO Tally</a>
 			</div>
 		</div>
 	</div>
+	{{> grid}}
+</body>
+
+<template name="grid">
+
 
 	<div>{{getInputNumber}} entrées, {{getOutputNumber}} sorties:</div>
 	<br><br><br>
