@@ -1,44 +1,52 @@
 /*jshint esversion: 6 */
 import { Template } from 'meteor/templating';
-import { ReactiveVar } from 'meteor/reactive-var';
 
 import './main.html';
 
-Template.grid.onCreated(function gridOnCreated() {
 
-	this.gridLinks = new ReactiveDict('gridLinks');
-	for(i=0; i < getInputNumber(); i++){
-		this.gridLinks.set(i.toString(), Array.apply(null, Array(getOutputNumber())).map(Number.prototype.valueOf,0));
-	}
-});
+columnPosition = function(index){
+	return (1000/getInputNumber())*index;
+}
+
+gridThickness = function(){
+	return 5;
+}
+
+columnHeight = function(outputIndex){
+	return Math.max(100,(1000/getOutputNumber()))*(outputIndex+1);
+}
+
+lineLength = function(inputIndex){
+	return 1000-(1000/getInputNumber())*(inputIndex);
+}
 
 Template.grid.helpers({
-	getGridConnection(input) {
-		return Template.instance().gridLinks.get(input);
+	getCurrentConfigurationName(){
+		return getCurrentConfiguration().name;
 	},
 
 	inputsRange(){
 		return [...Array(getInputNumber()).keys()];
 	},
 
-	revertOutputsRange(){
-		return [...Array(getOutputNumber()).keys()].reverse();
+	outputsRange(){
+		return [...Array(getOutputNumber()).keys()];
 	},
 
 	columnPosition(index){
-		return (1000/getInputNumber())*index+20;
+		return columnPosition(index);
 	},
 
 	columnHeight(outputIndex){
-		return Math.max(100,(1000/getOutputNumber()))*(outputIndex+1);
+		return columnHeight(outputIndex);
 	},
 
 	lineLength(inputIndex){
-		return 1000-(1000/getInputNumber())*(inputIndex);
+		return lineLength(inputIndex);
 	},
 
 	gridThickness(){
-		return 9;
+		return gridThickness();
 	},
 
 	defineSvgHeight(){
@@ -47,14 +55,35 @@ Template.grid.helpers({
 		return Math.max(1050, minimumLineHeight*outputNumber+50);
 	},
 
-	inputs(){
-		var dic = [];
-		var inputNumber = getInputNumber();
-		var gridLinks = Template.instance().gridLinks;
-		for(i=0; i < inputNumber; i++){
-			dic.push(gridLinks.get(i.toString()));
+	buildColumn(column, line){
+		var connections = getCurrentGridConnections();
+		var color = "darkgrey";
+		
+		if(connections[column][line] == 1){
+			console.log("Connection on", column, line);
+			color = "blue";
 		}
-		//console.log(JSON.stringify(dic));
-		return dic;
+
+		return '<svg xmlns="http://www.w3.org/2000/svg"><rect class="wire_'+column+'_'+line+'_vert" x="'+columnPosition(column)+'" y="0" width="'+gridThickness()+'" height="'+columnHeight(line)+'" fill="'+color+'" stroke="'+color+'"/></svg>';
+	},
+
+	buildLineForColumn(column, line){
+		var connections = getCurrentGridConnections();
+		var color = "darkgrey";
+		if(connections[column][line] == -1) {return;}
+		if(connections[column][line] == 1){
+			console.log("Connection on", column, line);
+			color = "blue";
+		}
+
+		return '<svg xmlns="http://www.w3.org/2000/svg"><rect class="wire_'+column+'_'+line+'" x="'+columnPosition(column)+'" y="'+columnHeight(line)+'" width="'+lineLength(column)+'" height="'+gridThickness()+'" fill="'+color+'" stroke="'+color+'"/></svg>';
+	},
+
+	buildConnectionLine(column, line){
+		var color = getCurrentConfiguration().inputColors[column];
+		return '<svg xmlns="http://www.w3.org/2000/svg">'
+				+'<rect x="'+columnPosition(column)+'" y="0" width="'+gridThickness()+'" height="'+columnHeight(line)+'" fill="'+color+'" stroke="'+color+'"/>'
+				+'<rect x="'+columnPosition(column)+'" y="'+columnHeight(line)+'" width="'+lineLength(column)+'" height="'+gridThickness()+'" fill="'+color+'" stroke="'+color+'"/>'
+				+'</svg>';
 	}
 });

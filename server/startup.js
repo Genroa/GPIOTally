@@ -1,6 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import {ServerSession} from "meteor/matteodem:server-session";
-import {Configuration, GridInput} from "/collections/collections.js";
+import {Configuration} from "/collections/collections.js";
+import "/lib/global_helper_functions.js";
 
 function buildEmptyGrid(){
 	var colors = Meteor.settings.public.providedColors;
@@ -9,12 +10,6 @@ function buildEmptyGrid(){
 	
 	var newConfiguration = new Configuration({name: "Nouvelle configuration"});
 	
-	for(i=0; i<inputNb; i++){
-		var gridInput = new GridInput({color: colors[Math.floor(Math.random()*colors.length)], 
-									   outputs: new Array(outputNb).fill(0)});
-		newConfiguration.inputConfiguration.push(gridInput);
-	}
-	//console.log(JSON.stringify(newConfiguration, null, "\t"));
 	newConfiguration.save();
 	console.log("New configuration built and saved");
 	return newConfiguration._id;
@@ -25,7 +20,7 @@ function checkPhysicalSettings(){
 	if(!Meteor.settings.public.inputNumber){
 		console.log("WARNING : SETTINGS UNDEFINED. Default values used (10, 20)");
 		Meteor.settings.public.providedColors = ["green", "blue", "red", "orange", "yellow", "cyan", "Chartreuse", "BlueViolet", "DarkRed"];
-		Meteor.settings.public.inputNumber = 10;
+		Meteor.settings.public.inputNumber = 16;
 		Meteor.settings.public.outputNumber = 20;
 	}
 }
@@ -51,4 +46,8 @@ function checkServerSettings(){
 Meteor.startup(() => {
 	checkPhysicalSettings();
 	checkServerSettings();
+
+	setConnection(1, 1);
+	//unsetConnection(1, 1);
+	setConnection(0, 1);
 });

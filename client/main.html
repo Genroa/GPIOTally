@@ -23,20 +23,33 @@
 </body>
 
 <template name="grid">
-	
 	<div id="container">
-		<div>{{getInputNumber}} entrées, {{getOutputNumber}} sorties:</div>
-		<!-- Pour chaque index dans range, générer la colone et les lignes dédiées à cette entrée dans le SVG -->
-		<svg id="svgGrid" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 1000 {{defineSvgHeight}}">
-			{{#each index in inputsRange}}
-				<!-- pour chaque sortie, un rect normalement -->
-				{{#each outIndex in revertOutputsRange}}
-					<rect class="wire_{{index}}_{{outIndex}}_vert" x="{{columnPosition index}}" y="0" width="{{gridThickness}}" height="{{columnHeight outIndex}}" fill="darkgrey"/>
-					<rect class="wire_{{index}}_{{outIndex}}" x="{{columnPosition index}}" y="{{columnHeight outIndex}}" width="{{lineLength index}}" height="{{gridThickness}}" fill="darkgrey" stroke="darkgrey"/>
+		{{#if Template.subscriptionsReady}}
+
+			<div>{{getInputNumber}} entrées, {{getOutputNumber}} sorties:</div>
+			<div>Configuration actuelle : {{getCurrentConfigurationName}}</div>
+			<!-- Pour chaque index dans range, générer la colone et les lignes dédiées à cette entrée dans le SVG -->
+			<svg id="svgGrid" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 1000 {{defineSvgHeight}}">
+				{{#each column in inputsRange}}
+					{{#each line in outputsRange}}
+						<rect class="wire_{{column}}_{{line}}" x="{{columnPosition column}}" y="0" width="{{gridThickness}}" height="{{columnHeight line}}" fill="darkgrey"/>
+						<rect class="wire_{{column}}_{{line}}" x="{{columnPosition column}}" y="{{columnHeight line}}" width="{{lineLength column}}" height="{{gridThickness}}" fill="darkgrey" stroke="darkgrey"/>
+					{{/each}}
 				{{/each}}
-			{{/each}}
 
-
-		</svg>
+				<!-- Building connection lines -->
+				{{#each column in getCurrentGridConnections}}
+					{{#let columnIndex=@index}}
+						{{#each out in column}}
+							{{#if $eq out 1 }}
+								{{{buildConnectionLine columnIndex @index}}}
+							{{/if}}
+						{{/each}}
+					{{/let}}
+				{{/each}}
+			</svg>
+		{{else}}
+			Chargement des données...
+		{{/if}}
 	</div>
 </template>
