@@ -11,3 +11,8 @@ body { padding-top: 70px; }
 	max-width: 90%;
 	min-height: 600px;
 }
+
+.menu-span {
+	display: block;
+	margin: 15px;
+}
