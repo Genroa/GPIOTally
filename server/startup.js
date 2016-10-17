@@ -9,7 +9,7 @@ function buildEmptyGrid(){
 	var outputNb = Meteor.settings.public.outputNumber;
 	
 	var newConfiguration = new Configuration({name: "Nouvelle configuration"});
-	
+
 	newConfiguration.save();
 	console.log("New configuration built and saved");
 	return newConfiguration._id;
@@ -46,8 +46,4 @@ function checkServerSettings(){
 Meteor.startup(() => {
 	checkPhysicalSettings();
 	checkServerSettings();
-
-	setConnection(1, 1);
-	//unsetConnection(1, 1);
-	setConnection(0, 1);
 });

@@ -1,28 +1,56 @@
 /*jshint esversion: 6 */
 import { Template } from 'meteor/templating';
-
+import { ReactiveVar } from 'meteor/reactive-var';
 import './main.html';
 
+NAMES_SPACE = 80;
+OUTPUT_HEIGHT = 50;
+
+getTotalSvgHeight = function(){
+	var outputNumber = getOutputNumber();
+	return outputNumber*OUTPUT_HEIGHT + NAMES_SPACE + 20;
+}
 
 columnPosition = function(index){
-	return (1000/getInputNumber())*index;
+	return ($("#svgGrid").width()/getInputNumber())*index;
 }
 
 gridThickness = function(){
 	return 5;
 }
 
-columnHeight = function(outputIndex){
-	return Math.max(100,(1000/getOutputNumber()))*(outputIndex+1);
+columnHeight = function(){
+	return getOutputNumber()*OUTPUT_HEIGHT;
 }
 
-lineLength = function(inputIndex){
-	return 1000-(1000/getInputNumber())*(inputIndex);
+lineLength = function(){
+	return $("#svgGrid").width() - NAMES_SPACE;
 }
+
+Template.grid.onCreated(function(){
+	this.svgWidth = new ReactiveVar();
+});
+
+Template.grid.events({
+	'resize': function(evt){
+		evt.preventDefault();
+		Template.instance().svgWidth.set($("#svgGrid").width());
+		console.log("RESIZED, WIDTH=", Template.instance().svgWidth.get());
+	},
+	'click': function(evt){
+		evt.preventDefault();
+		console.log("CLICK");
+	}
+});
 
 Template.grid.helpers({
+	getNameSpace(){
+		return NAMES_SPACE;
+	},
+
 	getCurrentConfigurationName(){
-		return getCurrentConfiguration().name;
+		var config = getCurrentConfiguration();
+		return config && config.name;
 	},
 
 	inputsRange(){
@@ -37,8 +65,8 @@ Template.grid.helpers({
 		return columnPosition(index);
 	},
 
-	columnHeight(outputIndex){
-		return columnHeight(outputIndex);
+	columnHeight(){
+		return columnHeight();
 	},
 
 	lineLength(inputIndex){
@@ -50,39 +78,15 @@ Template.grid.helpers({
 	},
 
 	defineSvgHeight(){
-		var outputNumber = getOutputNumber();
-		var minimumLineHeight = Math.max(100,(1000/outputNumber));
-		return Math.max(1050, minimumLineHeight*outputNumber+50);
+		return getTotalSvgHeight();
 	},
 
-	buildColumn(column, line){
-		var connections = getCurrentGridConnections();
-		var color = "darkgrey";
-		
-		if(connections[column][line] == 1){
-			console.log("Connection on", column, line);
-			color = "blue";
-		}
 
-		return '<svg xmlns="http://www.w3.org/2000/svg"><rect class="wire_'+column+'_'+line+'_vert" x="'+columnPosition(column)+'" y="0" width="'+gridThickness()+'" height="'+columnHeight(line)+'" fill="'+color+'" stroke="'+color+'"/></svg>';
-	},
-
-	buildLineForColumn(column, line){
-		var connections = getCurrentGridConnections();
-		var color = "darkgrey";
-		if(connections[column][line] == -1) {return;}
-		if(connections[column][line] == 1){
-			console.log("Connection on", column, line);
-			color = "blue";
-		}
-
-		return '<svg xmlns="http://www.w3.org/2000/svg"><rect class="wire_'+column+'_'+line+'" x="'+columnPosition(column)+'" y="'+columnHeight(line)+'" width="'+lineLength(column)+'" height="'+gridThickness()+'" fill="'+color+'" stroke="'+color+'"/></svg>';
-	},
 
 	buildConnectionLine(column, line){
 		var color = getCurrentConfiguration().inputColors[column];
 		return '<svg xmlns="http://www.w3.org/2000/svg">'
-				+'<rect x="'+columnPosition(column)+'" y="0" width="'+gridThickness()+'" height="'+columnHeight(line)+'" fill="'+color+'" stroke="'+color+'"/>'
+				+'<rect x="'+columnPosition(column)+'" y="'+NAMES_SPACE+'" width="'+gridThickness()+'" height="'+(columnHeight(line)-NAMES_SPACE)+'" fill="'+color+'" stroke="'+color+'"/>'
 				+'<rect x="'+columnPosition(column)+'" y="'+columnHeight(line)+'" width="'+lineLength(column)+'" height="'+gridThickness()+'" fill="'+color+'" stroke="'+color+'"/>'
 				+'</svg>';
 	}
