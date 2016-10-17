@@ -30,12 +30,12 @@
 			<div>{{getInputNumber}} entrées, {{getOutputNumber}} sorties:</div>
 			<div>Configuration actuelle : {{getCurrentConfigurationName}}</div>
 			<!-- Pour chaque index dans range, générer la colone et les lignes dédiées à cette entrée dans le SVG -->
-			<svg id="svgGrid" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 1000 {{defineSvgHeight}}" style="height: {{defineSvgHeight}}px">
+			<svg id="svgGrid" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 {{defineSvgWidth}} {{defineSvgWidth}}" style="height: {{defineSvgHeight}}px">
 				{{#each column in inputsRange}}
-					<rect class="wire_{{column}}_vert" x="{{columnPosition column}}" y="{{getNameSpace}}" width="{{gridThickness}}" height="{{columnHeight}}" fill="darkgrey"/>
-					{{#each line in outputsRange}}
-						<rect class="wire_{{column}}_{{line}}" x="{{columnPosition column}}" y="{{columnHeight line}}" width="{{lineLength column}}" height="{{gridThickness}}" fill="darkgrey" stroke="darkgrey"/>
-					{{/each}}
+					<rect class="wire_{{column}}_vert" x="{{columnPosition column}}" y="{{getNameSpace}}" width="{{gridThickness}}" height="{{columnHeight}}" fill="darkgrey" stroke="darkgrey"/>
+				{{/each}}
+				{{#each line in outputsRange}}
+					<rect class="wire_{{line}}_hor" x="10" y="{{linePosition line}}" width="{{lineLength}}" height="{{gridThickness}}" fill="darkgrey" stroke="darkgrey"/>
 				{{/each}}
 
 				<!-- Building connection lines -->

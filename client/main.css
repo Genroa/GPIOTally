@@ -7,7 +7,7 @@ body { padding-top: 70px; }
 }
 
 #svgGrid {
-	
+	margin-top: 50px;
 	max-width: 90%;
 	min-height: 600px;
 }
