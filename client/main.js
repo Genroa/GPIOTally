@@ -1,6 +1,6 @@
 /*jshint esversion: 6 */
 import { Template } from 'meteor/templating';
-import { ReactiveVar } from 'meteor/reactive-var';
+import { Configuration } from '/collections/collections.js';
 import './main.html';
 
 NAMES_SPACE = 80;
@@ -27,21 +27,7 @@ lineLength = function(){
 	return $("#svgGrid").width() - NAMES_SPACE;
 }
 
-Template.grid.onCreated(function(){
-	this.svgWidth = new ReactiveVar();
-});
 
-Template.grid.events({
-	'resize': function(evt){
-		evt.preventDefault();
-		Template.instance().svgWidth.set($("#svgGrid").width());
-		console.log("RESIZED, WIDTH=", Template.instance().svgWidth.get());
-	},
-	'click': function(evt){
-		evt.preventDefault();
-		console.log("CLICK");
-	}
-});
 
 Template.grid.helpers({
 	getNameSpace(){
