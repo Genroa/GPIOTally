@@ -85,11 +85,21 @@ Template.grid.helpers({
 		return getTotalSvgWidth();
 	},
 
-
+	getInputName(column) {
+		var config = getCurrentConfiguration();
+		return config && config.inputNames[column];
+	},
+	getOutputName(line) {
+		var config = getCurrentConfiguration();
+		return config && config.outputNames[line];
+	},
+	textPosition(column){
+		return columnPosition(column)+10;
+	},
 
 	buildConnectionLine(column, line){
 		var color = getCurrentConfiguration().inputColors[column];
-		return '<svg xmlns="http://www.w3.org/2000/svg">'
+		return '<svg x="0" y="0" xmlns="http://www.w3.org/2000/svg">'
 				+'<rect x="'+columnPosition(column)+'" y="'+NAMES_SPACE+'" width="'+gridThickness()+'" height="'+(OUTPUT_HEIGHT*(line+1))+'" fill="'+color+'" stroke="'+color+'"/>'
 				+'<rect x="'+columnPosition(column)+'" y="'+linePosition(line)+'" width="'+INPUT_WIDTH*(getInputNumber()-column)+'" height="'+gridThickness()+'" fill="'+color+'" stroke="'+color+'"/>'
 				+'</svg>';
