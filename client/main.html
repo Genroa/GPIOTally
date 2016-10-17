@@ -3,21 +3,22 @@
 </head>
 
 <body>
-	<!-- <nav id="myNavmenu" class="navmenu navmenu-default navmenu-fixed-left offcanvas canvas-slid">
-		<a class="navmenu-brand" href="#">Brand</a>
-		<ul class="nav navmenu-nav">
-			<li class="active"><a href="#">Home</a></li>
-			<li><a href="#">Link</a></li>
-			<li><a href="#">Link</a></li>
-		</ul>
-	</nav> -->
+
+	<nav id="navmenu" class="navmenu navmenu-default navmenu-fixed-left offcanvas" role="navigation">
+		<div class="navmenu-brand">
+			Configuration
+		</div>
+		<span class="menu-span">Remplacer la configuration actuelle par la configuration :</span>
+		{{> configurationList}}
+		<a href="" class="btn btn-default btn-fab"><i class="material-icons">grade</i></a>
+	</nav>
 	<div class="navbar navbar-default navbar-fixed-top">
-		<button type="button" class="navbar-toggle" data-toggle="offcanvas" data-target="#myNavmenu" data-canvas="body">
-			<span class="icon-bar"></span>
-			<span class="icon-bar"></span>
-			<span class="icon-bar"></span>
-		</button>
-		<span class="navbar-brand">GPIO Tally</span>
+		<div class="navbar-left navbar-header">
+		  	<button type="button" class="nav navbar-menu btn btn-lg btn-link" data-toggle="offcanvas" data-target="#navmenu" data-canvas="body">
+		    	<span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
+		  	</button>
+		</div>
+		<a class="navbar-brand" href="#">GPIOTally</a>
 	</div>
 	{{> grid}}
 </body>
@@ -52,4 +53,12 @@
 			Chargement des données...
 		{{/if}}
 	</div>
+</template>
+
+<template name="configurationList">
+	<ul class="nav navmenu-nav">
+		{{#each config in configurations}}
+			<li><a href="#">{{config.name}}</a></li>
+		{{/each}}
+	</ul>
 </template>

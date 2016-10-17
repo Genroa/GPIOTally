@@ -1,6 +1,8 @@
 /*jshint esversion: 6 */
 import { Template } from 'meteor/templating';
 import { ReactiveVar } from 'meteor/reactive-var';
+
+import { Configuration } from '/collections/collections.js';
 import './main.html';
 
 NAMES_SPACE = 80;
@@ -17,7 +19,7 @@ columnPosition = function(index){
 
 gridThickness = function(){
 	return 5;
-}
+};
 
 columnHeight = function(){
 	return getOutputNumber()*OUTPUT_HEIGHT;
@@ -89,5 +91,18 @@ Template.grid.helpers({
 				+'<rect x="'+columnPosition(column)+'" y="'+NAMES_SPACE+'" width="'+gridThickness()+'" height="'+(columnHeight(line)-NAMES_SPACE)+'" fill="'+color+'" stroke="'+color+'"/>'
 				+'<rect x="'+columnPosition(column)+'" y="'+columnHeight(line)+'" width="'+lineLength(column)+'" height="'+gridThickness()+'" fill="'+color+'" stroke="'+color+'"/>'
 				+'</svg>';
+	}
+});
+
+Template.configurationList.helpers({
+	configurations() {
+		return Configuration.find({});
+	}
+});
+
+Template.configurationList.events({
+	'click a': function() {
+		/* traitement ici */
+		$('#navmenu').offcanvas('hide');
 	}
 });

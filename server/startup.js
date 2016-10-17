@@ -1,3 +1,4 @@
+/*jshint esversion: 6 */
 import { Meteor } from 'meteor/meteor';
 import {ServerSession} from "meteor/matteodem:server-session";
 import {Configuration} from "/collections/collections.js";
@@ -7,7 +8,7 @@ function buildEmptyGrid(){
 	var colors = Meteor.settings.public.providedColors;
 	var inputNb = Meteor.settings.public.inputNumber;
 	var outputNb = Meteor.settings.public.outputNumber;
-	
+
 	var newConfiguration = new Configuration({name: "Nouvelle configuration"});
 
 	newConfiguration.save();
@@ -30,7 +31,7 @@ function checkServerSettings(){
 		var gid = buildEmptyGrid();
 		ServerSession.set("currentConfiguration", gid);
 	}
-	
+
 	var gid = ServerSession.get("currentConfiguration");
 	if(!gid){
 		gid = buildEmptyGrid();

@@ -1,3 +1,4 @@
+/*jshint esversion: 6 */
 import { Class, Type } from 'meteor/jagi:astronomy';
 import { Mongo } from 'meteor/mongo';
 
