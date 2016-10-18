@@ -103,6 +103,13 @@ Template.grid.helpers({
 				+'<rect x="'+columnPosition(column)+'" y="'+NAMES_SPACE+'" width="'+gridThickness()+'" height="'+(OUTPUT_HEIGHT*(line+1))+'" fill="'+color+'" stroke="'+color+'"/>'
 				+'<rect x="'+columnPosition(column)+'" y="'+linePosition(line)+'" width="'+INPUT_WIDTH*(getInputNumber()-column)+'" height="'+gridThickness()+'" fill="'+color+'" stroke="'+color+'"/>'
 				+'</svg>';
+	},
+
+	logger() {
+		var config = getCurrentConfiguration();
+		if(config) {
+			console.log(JSON.stringify(config.gridConnections));
+		}
 	}
 });
 

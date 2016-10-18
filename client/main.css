@@ -16,3 +16,21 @@ body { padding-top: 70px; }
 	display: block;
 	margin: 15px;
 }
+
+.float-button {
+	position: fixed !important;
+	bottom: 10px;
+	left: -70px;
+	padding-top: 13px !important;
+	padding-left: 2px !important;
+}
+
+.navmenu-top {
+	color: #fff;
+	background-color: #009688;
+	text-transform: uppercase;
+	min-height: 57px;
+	text-align: center;
+	padding-top: 18px;
+
+}
