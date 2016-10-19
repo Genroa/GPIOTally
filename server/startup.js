@@ -4,19 +4,6 @@ import {ServerSession} from "meteor/matteodem:server-session";
 import {Configuration} from "/collections/collections.js";
 import "/lib/global_helper_functions.js";
 
-function buildEmptyGrid(){
-	var colors = Meteor.settings.public.providedColors;
-	var inputNb = Meteor.settings.public.inputNumber;
-	var outputNb = Meteor.settings.public.outputNumber;
-
-	var newConfiguration = new Configuration({name: "Nouvelle configuration"});
-
-	newConfiguration.save();
-	console.log("New configuration built and saved");
-	return newConfiguration._id;
-}
-
-
 function checkPhysicalSettings(){
 	if(!Meteor.settings.public.inputNumber){
 		console.log("WARNING : SETTINGS UNDEFINED. Default values used (10, 20)");
