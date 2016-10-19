@@ -10,7 +10,6 @@
 		</div>
 		<span class="menu-span">Remplacer la configuration actuelle par la configuration :</span>
 		{{> configurationList}}
-		<a href="#" class="btn btn-default btn-fab float-button btn-primary"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></a>
 	</nav>
 	<div class="navbar navbar-default navbar-fixed-top">
 		<div class="navbar-left navbar-header">
@@ -61,7 +60,14 @@
 <template name="configurationList">
 	<ul class="nav navmenu-nav">
 		{{#each config in configurations}}
-			<li><a href="#"><button class="btn btn-raised">{{config.name}}</button></a></li>
+			<li><div class="btn-group">
+					<button class="btn btn-raised configChoice {{isCurrentConfiguration config._id}}" data-config-id="{{config._id}}">{{config.name}}</button>
+					{{#unless isCurrentConfiguration config._id}}
+						<button data-target="#" class="btn btn-default btn-raised dropdown-toggle button-remove" data-toggle="dropdown" data-config-id="{{config._id}}"><span class="glyphicon glyphicon-trash" aria-hidden="false"></span></button>
+					{{/unless}}
+				</div>
+			</li>
 		{{/each}}
 	</ul>
+	<a href="#" id="addConfig" class="btn btn-default btn-fab float-button btn-primary"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></a>
 </template>
