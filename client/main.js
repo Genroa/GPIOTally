@@ -49,6 +49,11 @@ Template.grid.helpers({
 		return config && config.name;
 	},
 
+	getCurrentConfigurationId(){
+		var config = getCurrentConfiguration();
+		return config && config._id;
+	},
+
 	inputsRange(){
 		return [...Array(getInputNumber()).keys()];
 	},

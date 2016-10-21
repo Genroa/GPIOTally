@@ -13,9 +13,9 @@
 	</nav>
 	<div class="navbar navbar-default navbar-fixed-top">
 		<div class="navbar-left navbar-header">
-		  	<button type="button" class="nav navbar-menu btn btn-lg btn-link" data-toggle="offcanvas" data-target="#navmenu" data-canvas="body">
-		    	<span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
-		  	</button>
+			<button type="button" class="nav navbar-menu btn btn-lg btn-link" data-toggle="offcanvas" data-target="#navmenu" data-canvas="body">
+				<span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
+			</button>
 		</div>
 		<a class="navbar-brand" href="#">GPIOTally</a>
 	</div>
@@ -23,51 +23,77 @@
 </body>
 
 <template name="grid">
+
+	<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<h4 class="modal-title" id="exampleModalLabel">New message</h4>
+				</div>
+				<div class="modal-body">
+					<form>
+						<div class="form-group">
+							<label for="recipient-name" class="control-label">Nouveau nom :</label>
+							<input type="text" class="form-control" id="recipient-name">
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+					<button type="button" class="btn btn-primary">Send message</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
 	<div id="container">
 		{{#if Template.subscriptionsReady}}
-
+		<div class="row">
 			<div>{{getInputNumber}} entrées, {{getOutputNumber}} sorties:</div>
 			<div>Configuration actuelle : {{getCurrentConfigurationName}}</div>
-			<!-- Pour chaque index dans range, générer la colone et les lignes dédiées à cette entrée dans le SVG -->
-			<svg id="svgGrid" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 {{defineSvgWidth}} {{defineSvgWidth}}" style="height: {{defineSvgHeight}}px">
-				<!-- Drawing grid with names -->
-				{{#each column in inputsRange}}
-					<text text-anchor="middle" transform="rotate(280, {{textPosition column}}, 50)" x="{{columnPosition column}}" y="50">{{getInputName @index}}</text>
-					<rect class="wire_{{column}}_vert" x="{{columnPosition column}}" y="{{getNameSpace}}" width="{{gridThickness}}" height="{{columnHeight}}" fill="darkgrey" stroke="darkgrey"/>
-				{{/each}}
-				{{#each line in outputsRange}}
-					<rect class="wire_{{line}}_hor" x="10" y="{{linePosition line}}" width="{{lineLength}}" height="{{gridThickness}}" fill="darkgrey" stroke="darkgrey"/>
-				{{/each}}
+			<button href="bootstrap-elements.html" data-target="#" class="btn dropdown-toggle" data-config-id={{getCurrentConfigurationId}}><span class="glyphicon glyphicon-edit"></span></button>
+		</div>
+		<!-- Pour chaque index dans range, générer la colone et les lignes dédiées à cette entrée dans le SVG -->
+		<svg id="svgGrid" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 {{defineSvgWidth}} {{defineSvgWidth}}" style="height: {{defineSvgHeight}}px">
+			<!-- Drawing grid with names -->
+			{{#each column in inputsRange}}
+			<text text-anchor="middle" transform="rotate(280, {{textPosition column}}, 50)" x="{{columnPosition column}}" y="50">{{getInputName @index}}</text>
+			<rect class="wire_{{column}}_vert" x="{{columnPosition column}}" y="{{getNameSpace}}" width="{{gridThickness}}" height="{{columnHeight}}" fill="darkgrey" stroke="darkgrey"/>
+			{{/each}}
+			{{#each line in outputsRange}}
+			<rect class="wire_{{line}}_hor" x="10" y="{{linePosition line}}" width="{{lineLength}}" height="{{gridThickness}}" fill="darkgrey" stroke="darkgrey"/>
+			{{/each}}
 
-				<!-- Building connection lines -->
-				{{logger}}
-				{{#each column in getCurrentGridConnections}}
-					{{#let columnIndex=@index}}
-						{{#each out in column}}
-							{{#if $eq out 1 }}
-								{{{buildConnectionLine columnIndex @index}}}
-							{{/if}}
-						{{/each}}
-					{{/let}}
-				{{/each}}
-			</svg>
+			<!-- Building connection lines -->
+			{{logger}}
+			{{#each column in getCurrentGridConnections}}
+			{{#let columnIndex=@index}}
+			{{#each out in column}}
+			{{#if $eq out 1 }}
+			{{{buildConnectionLine columnIndex @index}}}
+			{{/if}}
+			{{/each}}
+			{{/let}}
+			{{/each}}
+		</svg>
 		{{else}}
-			Chargement des données...
+		Chargement des données...
 		{{/if}}
-	</div> 
+	</div>
 </template>
 
 <template name="configurationList">
 	<ul class="nav navmenu-nav">
 		{{#each config in configurations}}
-			<li><div class="btn-group">
-					<button class="btn btn-raised configChoice {{isCurrentConfiguration config._id}}" data-config-id="{{config._id}}">{{config.name}}</button>
-					{{#unless isCurrentConfiguration config._id}}
-						<button data-target="#" class="btn btn-default btn-raised dropdown-toggle button-remove" data-toggle="dropdown" data-config-id="{{config._id}}"><span class="glyphicon glyphicon-trash" aria-hidden="false"></span></button>
-					{{/unless}}
-				</div>
-			</li>
-		{{/each}}
-	</ul>
-	<a href="#" id="addConfig" class="btn btn-default btn-fab float-button btn-primary"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></a>
+		<li><div class="btn-group">
+			<button class="btn btn-raised configChoice {{isCurrentConfiguration config._id}}" data-config-id="{{config._id}}">{{config.name}}</button>
+			{{#unless isCurrentConfiguration config._id}}
+			<button data-target="#" class="btn btn-default btn-raised dropdown-toggle button-remove" data-config-id="{{config._id}}"><span class="glyphicon glyphicon-trash" aria-hidden="false"></span></button>
+			{{/unless}}
+		</div>
+	</li>
+	{{/each}}
+</ul>
+<a href="#" id="addConfig" class="btn btn-default btn-fab float-button btn-primary"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></a>
 </template>
