@@ -3,7 +3,7 @@ import { Template } from 'meteor/templating';
 import { Configuration } from '/collections/collections.js';
 import './main.html';
 
-NAMES_SPACE = 80;
+NAMES_SPACE = 120;
 OUTPUT_HEIGHT = 50;
 INPUT_WIDTH = 50;
 
@@ -37,6 +37,14 @@ lineLength = function(){
 	return getInputNumber()*INPUT_WIDTH;
 };
 
+buildConnectionLine = function(column, line){
+	var config = getCurrentConfiguration();
+	var color = config && config.inputColors[column];
+	return '<svg x="0" y="0" xmlns="http://www.w3.org/2000/svg">'
+			+'<rect x="'+columnPosition(column)+'" y="'+NAMES_SPACE+'" width="'+gridThickness()+'" height="'+(OUTPUT_HEIGHT*(line+1))+'" fill="'+color+'" stroke="'+color+'"/>'
+			+'<rect x="'+columnPosition(column)+'" y="'+linePosition(line)+'" width="'+INPUT_WIDTH*(getInputNumber()-column)+'" height="'+gridThickness()+'" fill="'+color+'" stroke="'+color+'"/>'
+			+'</svg>';
+};
 
 
 Template.grid.helpers({
@@ -94,22 +102,46 @@ Template.grid.helpers({
 		return config && config.outputNames[line];
 	},
 	textPosition(column){
-		return columnPosition(column)+10;
+		return columnPosition(column)+7;
+	},
+
+	textLinePosition(){
+		return lineLength()+20;
+	},
+	textLineVerticalPosition(line){
+		return linePosition(line)+7;
+	},
+
+	buildConnections(){
+		var inputNumber = getInputNumber();
+		var outputNumber = getOutputNumber();
+		var config = getCurrentConfiguration();
+		var connections = "";
+		var grid = config && config.gridConnections;
+
+		if(!config) {
+			return connections;
+		}
+
+		for(var i = 0; i < inputNumber; i++) {
+			for(var j = 0; j < outputNumber; j++) {
+				if(grid[i][j] == 1) {
+					connections += buildConnectionLine(i, j);
+				}
+			}
+		}
+
+		return connections;
 	},
 
 	buildConnectionLine(column, line){
-		var config = getCurrentConfiguration();
-		var color = config && config.inputColors[column];
-		return '<svg x="0" y="0" xmlns="http://www.w3.org/2000/svg">'
-				+'<rect x="'+columnPosition(column)+'" y="'+NAMES_SPACE+'" width="'+gridThickness()+'" height="'+(OUTPUT_HEIGHT*(line+1))+'" fill="'+color+'" stroke="'+color+'"/>'
-				+'<rect x="'+columnPosition(column)+'" y="'+linePosition(line)+'" width="'+INPUT_WIDTH*(getInputNumber()-column)+'" height="'+gridThickness()+'" fill="'+color+'" stroke="'+color+'"/>'
-				+'</svg>';
+		return buildConnectionLine(column, line);
 	},
 
-	logger() {
+	logger(column, line, value, arr) {
 		var config = getCurrentConfiguration();
 		if(config) {
-			console.log(JSON.stringify(config.gridConnections));
+			console.log("CONNECTION ", column, line, value, JSON.stringify(arr));
 		}
 	}
 });

@@ -32,24 +32,17 @@
 			<svg id="svgGrid" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 {{defineSvgWidth}} {{defineSvgWidth}}" style="height: {{defineSvgHeight}}px">
 				<!-- Drawing grid with names -->
 				{{#each column in inputsRange}}
-					<text text-anchor="middle" transform="rotate(280, {{textPosition column}}, 50)" x="{{columnPosition column}}" y="50">{{getInputName @index}}</text>
+					<text transform="rotate(280, {{textPosition column}}, 60)" x="{{textPosition column}}" y="60">{{getInputName @index}}</text>
 					<rect class="wire_{{column}}_vert" x="{{columnPosition column}}" y="{{getNameSpace}}" width="{{gridThickness}}" height="{{columnHeight}}" fill="darkgrey" stroke="darkgrey"/>
 				{{/each}}
 				{{#each line in outputsRange}}
 					<rect class="wire_{{line}}_hor" x="10" y="{{linePosition line}}" width="{{lineLength}}" height="{{gridThickness}}" fill="darkgrey" stroke="darkgrey"/>
+					<text x="{{textLinePosition}}" y="{{textLineVerticalPosition line}}">{{getOutputName @index}}</text>
 				{{/each}}
 
 				<!-- Building connection lines -->
-				{{logger}}
-				{{#each column in getCurrentGridConnections}}
-					{{#let columnIndex=@index}}
-						{{#each out in column}}
-							{{#if $eq out 1 }}
-								{{{buildConnectionLine columnIndex @index}}}
-							{{/if}}
-						{{/each}}
-					{{/let}}
-				{{/each}}
+				{{{buildConnections}}}
+
 			</svg>
 		{{else}}
 			Chargement des données...
