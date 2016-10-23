@@ -55,20 +55,29 @@
 			<button href="bootstrap-elements.html" data-target="#" class="btn dropdown-toggle" data-config-id={{getCurrentConfigurationId}}><span class="glyphicon glyphicon-edit"></span></button>
 		</div>
 			<!-- Pour chaque index dans range, générer la colone et les lignes dédiées à cette entrée dans le SVG -->
-			<svg id="svgGrid" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 {{defineSvgWidth}} {{defineSvgWidth}}" style="height: {{defineSvgHeight}}px">
+			<svg id="svgGrid" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 {{defineSvgWidth}} {{defineSvgHeight}}" style="">
 				<!-- Drawing grid with names -->
 				{{#each column in inputsRange}}
-					<text transform="rotate(280, {{textPosition column}}, 60)" x="{{textPosition column}}" y="60">{{getInputName @index}}</text>
+					<text transform="rotate(280, {{textPosition column}}, 100)" x="{{textPosition column}}" y="100">In {{@index}} : {{getInputName @index}}</text>
+					
+					<!-- <foreignObject x="{{textPosition column}}" y="300" width="50" height="50" requiredExtensions="http://www.w3.org/1999/xhtml">
+						<body xmlns="http://www.w3.org/1999/xhtml">
+							<div xmlns="http://www.w3.org/1999/xhtml" style="background-color: red;" class="">TEST</div>
+						</body>
+					</foreignObject> -->
+
 					<rect class="wire_{{column}}_vert" x="{{columnPosition column}}" y="{{getNameSpace}}" width="{{gridThickness}}" height="{{columnHeight}}" fill="darkgrey" stroke="darkgrey"/>
 				{{/each}}
 				{{#each line in outputsRange}}
 					<rect class="wire_{{line}}_hor" x="10" y="{{linePosition line}}" width="{{lineLength}}" height="{{gridThickness}}" fill="darkgrey" stroke="darkgrey"/>
-					<text x="{{textLinePosition}}" y="{{textLineVerticalPosition line}}">{{getOutputName @index}}</text>
+					<text x="{{textLinePosition}}" y="{{textLineVerticalPosition line}}">Out {{@index}} : {{getOutputName @index}}</text>
 				{{/each}}
 
 				<!-- Building connection lines -->
 				{{{buildConnections}}}
 
+
+				<circle id="connectionSelector" cs="-100" cy="-100" r="10" fill="grey" fill-opacity="0.5"/>
 			</svg>
 		{{else}}
 		Chargement des données...

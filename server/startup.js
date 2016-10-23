@@ -8,7 +8,7 @@ function checkPhysicalSettings(){
 	if(!Meteor.settings.public.inputNumber){
 		console.log("WARNING : SETTINGS UNDEFINED. Default values used (10, 20)");
 		Meteor.settings.public.providedColors = ["green", "blue", "red", "orange", "yellow", "cyan", "Chartreuse", "BlueViolet", "DarkRed"];
-		Meteor.settings.public.inputNumber = 5;
+		Meteor.settings.public.inputNumber = 16;
 		Meteor.settings.public.outputNumber = 5;
 	}
 }

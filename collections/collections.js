@@ -24,7 +24,7 @@ const Configuration = Class.create({
 			default: function(){
 				var arr = new Array(Meteor.settings.public.inputNumber);
 				for(var i=0; i<Meteor.settings.public.inputNumber; i++){
-					arr[i] = "In "+i.toString();
+					arr[i] = "Input "+i.toString();
 				}
 				return arr;
 			}
@@ -34,7 +34,7 @@ const Configuration = Class.create({
 			default: function(){
 				var arr = new Array(Meteor.settings.public.outputNumber);
 				for(var i=0; i<Meteor.settings.public.outputNumber; i++){
-					arr[i] = "Out "+i.toString();
+					arr[i] = "Output "+i.toString();
 				}
 				return arr;
 			}
