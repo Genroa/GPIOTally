@@ -5,5 +5,7 @@
     "start": "meteor run"
   },
   "dependencies": {
+    "babel-runtime": "^6.26.0",
+    "pi-gpio": "0.0.8"
   }
 }
